@@ -12,6 +12,8 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import javax.print.DocFlavor;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,17 +35,7 @@ public class RestTemplateConfig {
                                     .build();
         factory.setHttpClient(httpClient);
 
-
         RestTemplate restTemplate = new RestTemplate(factory);
-
-        List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
-        //왜 여러개 하면 오류지..?
-        converters.add(mappingJackson2HttpMessageConverter);
-        converters.add(new StringHttpMessageConverter());
-        converters.add(new FormHttpMessageConverter());
-        restTemplate.setMessageConverters(converters);
 
 
         return restTemplate;

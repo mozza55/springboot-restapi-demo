@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -27,7 +28,6 @@ public class TranslationService {
     private String url="https://dapi.kakao.com/v2/translation/translate";
     @Value("${external.kakaoapi.key}")
     private String key;
-
 
     public String Translate(String targetLang,String targetText) {
         String result = null;
@@ -52,6 +52,7 @@ public class TranslationService {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(response.getBody());
             JSONArray translatedText =(JSONArray) jsonObject.get("translated_text");
             List<String> str = (List<String>) translatedText.get(0);
+
             result = str.stream()
                                 .collect(Collectors.joining(" "));
         } catch (ParseException e) {
@@ -59,4 +60,5 @@ public class TranslationService {
         }
         return  result;
     }
+
 }
